@@ -14,12 +14,13 @@
                 <p id="p1"><label for="name">Имя: </label><input type="text" name = "name" id="name"></p>
                 <p id="p2"><label for="surname">Фамилия: </label><input type="text" name = "surname" id="surname"></p>
             </div>
-            <form enctype="multipart/form-data" method="post">
-                <p><input type="file" name="f">
+            <form action="UploadServlet" enctype="multipart/form-data" method="post">
+                <input name="description" type="text"><br>
+                <p><input type="file" name="file" >
                     <input type="submit" value="Отправить"></p>
+            </form>
         </fieldset>
     </form>
 </div>
-
 </body>
 </html>

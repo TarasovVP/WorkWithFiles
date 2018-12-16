@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,34 +17,54 @@ public class DataBase
     private String passwd = props.getProperty("db.passwd");
 
 
-    public void insert(String name, String surname){
+    public void insertName(String name, String surname) {
 
         String insertName = "INSERT INTO documents.person (first_name, last_name)" + "VALUES (?, ?)";
-        String insertFiles = "INSERT INTO documents.files (first_name, last_name)" + "VALUES (?, ?)";
         try {
-            DriverManager.registerDriver(new com.mysql.jdbc.Driver ());
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try (Connection con = DriverManager.getConnection(url, user, passwd); PreparedStatement prpdSttm = con.prepareStatement(insertName)) {
+        try (Connection con = DriverManager.getConnection(url, user, passwd); PreparedStatement prpdSttmName = con.prepareStatement(insertName)) {
 
-            prpdSttm.setString(1, name);
-            prpdSttm.setString(2, surname);
+            prpdSttmName.setString(1, name);
+            prpdSttmName.setString(2, surname);
 
-            prpdSttm.execute();
+            prpdSttmName.execute();
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+        public void insertFile (String fileName, InputStream fileContent){
+
+            String insertFiles = "INSERT INTO documents.files (filename, contenttype)" + "VALUES (?, ?)";
+            try {
+                DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try (Connection con = DriverManager.getConnection(url, user, passwd); PreparedStatement prpdSttmFile = con.prepareStatement(insertFiles)) {
+
+                prpdSttmFile.setString(1, fileName);
+                prpdSttmFile.setBinaryStream(2, fileContent);
+
+                prpdSttmFile.execute();
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
 
 
 
     private Properties getConnectionData() {
         props = new Properties();
-        String fileName = "D:\\_aJavaBestTeam\\project\\WorkWithFiles\\src\\main\\resources\\db.properties";
+        String fileName = "D:\\IT\\Java\\LevelUp\\WorkWithFiles\\src\\main\\resources\\db.properties";
 
         try (FileInputStream in = new FileInputStream(fileName)) {
             props.load(in);

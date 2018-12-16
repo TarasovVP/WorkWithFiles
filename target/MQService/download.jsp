@@ -9,9 +9,10 @@
 <div>
     <form method="post">
         <fieldset>
-            <p>Введите нового актера: </p>
+            <p>Выберите фамилию и имя: </p>
 
             <p><input type="submit" value="Скачать файл" class = "bttn"></p>
+
         </fieldset>
     </form>
 </div>
