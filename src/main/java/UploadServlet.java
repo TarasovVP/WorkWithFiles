@@ -1,3 +1,4 @@
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -10,13 +11,16 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 
 
-@WebServlet("/UploadServlet")
 @MultipartConfig
+@WebServlet(
+       name = "UploadServlet",
+        urlPatterns = { "/"},
+        loadOnStartup = 1
+)
 public class UploadServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
         req.getRequestDispatcher("upload.jsp").forward(req, resp);
@@ -25,16 +29,24 @@ public class UploadServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.getRequestDispatcher("upload.jsp").forward(req, resp);
         req.setCharacterEncoding("UTF-8");
 
-        String description = req.getParameter("description");
-        Part filePart = req.getPart("file");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        InputStream fileContent = filePart.getInputStream();
+        Part filePart = null;
+        String fileName = "";
+        InputStream fileContent = null;
+
+        try {
+            filePart = req.getPart("file");
+            fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            fileContent = filePart.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
 
 
         String name = req.getParameter("name");
@@ -46,5 +58,4 @@ public class UploadServlet extends HttpServlet {
 
 
     }
-
 }

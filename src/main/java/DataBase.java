@@ -39,7 +39,7 @@ public class DataBase
     }
         public void insertFile (String fileName, InputStream fileContent){
 
-            String insertFiles = "INSERT INTO documents.files (filename, contenttype)" + "VALUES (?, ?)";
+            String insertFiles = "INSERT INTO documents.files (filename, contentype)" + "VALUES (?, ?)";
             try {
                 DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             } catch (SQLException e) {
